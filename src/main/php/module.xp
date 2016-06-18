@@ -1,0 +1,12 @@
+<?php namespace util\cmd\term;
+
+use util\cmd\Console;
+
+module xp-forge/term {
+  
+  /** @return void */
+  public function initialize() {
+    Console::$out->setStream(new Output(STDOUT));
+    Console::$err->setStream(new Output(STDERR));
+  }
+}
