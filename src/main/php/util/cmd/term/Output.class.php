@@ -8,7 +8,7 @@ class Output extends \io\streams\ConsoleOutputStream {
    * @param  string $arg
    * @return void
    */
-  public function write($arg) { 
-    parent::write(strtr($arg, Terminal::$theme));
+  public function write($arg) {
+    parent::write(Terminal::format($arg));
   }
 }
