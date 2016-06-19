@@ -38,6 +38,8 @@ Console::writeLine('<red>An error occured</>');
 Console::writeLine('<white@green>OK: 100 Tests succeeded</>');
 ```
 
+The colors' names are black, dark-red, dark-green, dark-yellow, dark-blue, dark-magenta, dark-cyan, gray, dark-gray, red, green, yellow, blue, magenta, cyan and white.
+
 Attributes
 ----------
 There are three more attributes. Not all terminals support these, though!
