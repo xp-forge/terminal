@@ -73,6 +73,30 @@ class Terminal {
   }
 
   /**
+   * Returns size
+   *
+   * @return  int[] columns, rows
+   */
+  public static function size() {
+    static $options= ['bypass_shell' => true, 'suppress_errors' => true];
+
+    if (false !== ($col= getenv('COLUMNS'))) {
+      return [(int)$col, (int)getenv('LINES')];
+    } else {
+      $p= proc_open('tput -S', [['pipe', 'r'], ['pipe', 'w']], $pipes, null, null, $options);
+      fputs($pipes[0], "lines\ncols\n");
+      fclose($pipes[0]);
+      $lines= fgets($pipes[1]);
+      $columns= fgets($pipes[1]);
+      fclose($pipes[1]);
+      if (0 === proc_close($p)) {
+        return [(int)$columns, (int)$lines];
+      }
+    }
+    return [80, 24];
+  }
+
+  /**
    * Clears terminal
    *
    * @return void
