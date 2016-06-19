@@ -6,6 +6,8 @@ module xp-forge/term {
   
   /** @return void */
   public function initialize() {
+    Output::$direct= Console::$out->getStream();
+
     Console::$out->setStream(new Output(STDOUT));
     Console::$err->setStream(new Output(STDERR));
   }

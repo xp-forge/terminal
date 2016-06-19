@@ -3,6 +3,9 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+* Added methods to clear terminal, position cursor and write text at
+  given coordinates
+  (@thekid)
 * Allowed end tags to be spelled-out. The suggested usage is to write
   `<tag>`...`</>`, but `<tag>`...`</tag>` is fine now, too. This can
   be benefitial when editors have in-string autocompletion. Correct

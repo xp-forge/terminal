@@ -71,4 +71,47 @@ class Terminal {
     }
     return $formatted.substr($in, $offset);
   }
+
+  /**
+   * Clears terminal
+   *
+   * @return void
+   */
+  public static function clear() {
+    Output::$direct->write("\e[2J");
+  }
+
+  /**
+   * Positions cursor
+   *
+   * @param  int $x
+   * @param  int $y
+   * @return void
+   */
+  public static function position($x, $y) {
+    Output::$direct->write("\e[".$y.';'.$x.'H');
+  }
+
+  /**
+   * Resets current line
+   *
+   * @return void
+   */
+  public static function reset() {
+    Output::$direct->write("\r\e[K");
+  }
+
+  /**
+   * Resets current line
+   *
+   * @param  int $x
+   * @param  int $y
+   * @param  string|string[] $arg Single or multiple lines
+   * @return void
+   */
+  public static function write($x, $y, $arg) {
+    foreach ((array)$arg as $n => $line) {
+      Output::$direct->write("\e[".($y + $n).';'.$x.'H'.self::format($line));
+    }
+  }
 }
