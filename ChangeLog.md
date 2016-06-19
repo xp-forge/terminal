@@ -3,6 +3,8 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+* Added method to return terminal size as [colums, lines] tuple
+  (@thekid)
 * Added methods to clear terminal, position cursor and write text at
   given coordinates
   (@thekid)
