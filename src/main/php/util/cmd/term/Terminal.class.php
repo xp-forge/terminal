@@ -78,6 +78,19 @@ class Terminal {
     return $formatted.substr($in, $offset);
   }
 
+  private static function resolve($command, $path) {
+    $extensions= [''] + explode(PATH_SEPARATOR, getenv('PATHEXT'));
+    $paths= explode(PATH_SEPARATOR, $path);
+    foreach ($paths as $path) {
+      if ('' === $path) continue;
+      foreach ($extensions as $ext) {
+        $q= $path.DIRECTORY_SEPARATOR.$command.$ext;
+        if (is_file($q)) return realpath($q);
+      }
+    }
+    return $command;
+  }
+
   /**
    * Returns size
    *
@@ -89,7 +102,8 @@ class Terminal {
     if (false !== ($col= getenv('COLUMNS'))) {
       return [(int)$col, (int)getenv('LINES')];
     } else {
-      $p= proc_open('tput -S', [['pipe', 'r'], ['pipe', 'w']], $pipes, null, null, $options);
+      $command= self::resolve('tput', dirname(getenv('XP_EXE')).PATH_SEPARATOR.getenv('PATH'));
+      $p= proc_open($command.' -S', [['pipe', 'r'], ['pipe', 'w']], $pipes, null, null, $options);
       fputs($pipes[0], "lines\ncols\n");
       fclose($pipes[0]);
       $lines= fgets($pipes[1]);
