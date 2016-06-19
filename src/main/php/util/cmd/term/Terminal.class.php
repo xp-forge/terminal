@@ -122,9 +122,11 @@ class Terminal {
   /**
    * Clears terminal
    *
+   * @param  string $styles Optional
    * @return void
    */
-  public static function clear() {
+  public static function clear($styles= null) {
+    $styles && Output::$direct->write(self::transition($styles)[0]);
     Output::$direct->write("\e[2J");
   }
 
