@@ -1,7 +1,7 @@
 Terminal
 ========
 
-[![Build Status on TravisCI](https://secure.travis-ci.org/xp-forge/terminal.svg)](http://travis-ci.org/xp-forge/terminal)
+[![Build Status on TravisCI](https://secure.travis-ci.org/xp-forge/terminal.svg)](https://travis-ci.org/xp-forge/terminal)
 [![XP Framework Module](https://raw.githubusercontent.com/xp-framework/web/master/static/xp-framework-badge.png)](https://github.com/xp-framework/core)
 [![BSD Licence](https://raw.githubusercontent.com/xp-framework/web/master/static/licence-bsd.png)](https://github.com/xp-framework/core/blob/master/LICENCE.md)
 [![Required PHP 5.5+](https://raw.githubusercontent.com/xp-framework/web/master/static/php-5_5plus.png)](http://php.net/)
