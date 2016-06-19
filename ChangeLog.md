@@ -3,6 +3,9 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+* Changed preference to bundled `tput` as using Cygwin variant breaks
+  ANSI escape sequences inside a Windows shell
+  (@thekid)
 * Added method to return terminal size as [colums, lines] tuple
   (@thekid)
 * Added methods to clear terminal, position cursor and write text at
