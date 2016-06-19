@@ -5,6 +5,13 @@ use util\Bytes;
 
 class TerminalTest extends \unittest\TestCase {
 
+  /**
+   * Assert formatted input matchs expected outcome
+   *
+   * @param  string $expected
+   * @param  string $input
+   * @throws unittest.AssertionFailedError
+   */
   private function assertFormatted($expected, $input) {
     $formatted= Terminal::format($input);
     if ($expected !== $formatted) {
@@ -25,6 +32,11 @@ class TerminalTest extends \unittest\TestCase {
   #[@test]
   public function format_with_color() {
     $this->assertFormatted("\e[31;1mTest\e[22;0m", '<red>Test</>');
+  }
+
+  #[@test]
+  public function end_tags_may_be_spelled_out() {
+    $this->assertFormatted("\e[31;1mTest\e[22;0m", '<red>Test</red>');
   }
 
   #[@test]

@@ -40,7 +40,7 @@ class Terminal {
    * @return string
    */
   public static function format($in) {
-    preg_match_all('/<(\/|[a-z][a-z@,-]+)>/', $in, $matches, PREG_OFFSET_CAPTURE);
+    preg_match_all('/<([a-z\/][a-z@,-]*)>/', $in, $matches, PREG_OFFSET_CAPTURE);
 
     $formatted= '';
     $offset= 0;
@@ -49,7 +49,7 @@ class Terminal {
         $formatted.= substr($in, $offset, $match[1] - $offset - 1);
       }
 
-      if ('/' === $match[0]) {
+      if ('/' === $match[0]{0}) {
         $formatted.= array_pop($stack);
       } else {
         $set= $unset= '';
