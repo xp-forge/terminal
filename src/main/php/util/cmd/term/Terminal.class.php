@@ -34,6 +34,21 @@ class Terminal {
     'white'        => ['%7;1', '22;%9']
   ];
 
+  private static function transition($styles) {
+    $set= $unset= '';
+    foreach (explode(',', $styles) as $style) {
+      if (isset(self::$theme[$style])) {
+        $set.= self::$theme[$style][0];
+        $unset= self::$theme[$style][1].$unset;
+      } else {
+        sscanf($style, '%[^@]@%s', $fg, $bg);
+        $set.= "\e[".strtr(self::$colors[$fg][0], '%', '3').($bg ? ';'.strtr(self::$colors[$bg][0], '%', '4') : '').'m';
+        $unset= "\e[".strtr(self::$colors[$fg][1], '%', '3').($bg ? ';'.strtr(self::$colors[$bg][1], '%', '4') : '').'m'.$unset;
+      }
+    }
+    return [$set, $unset];
+  }
+
   /**
    * Format a string containing `<styles>`...`</>` sequences.
    *
@@ -53,17 +68,7 @@ class Terminal {
       if ('/' === $match[0]{0}) {
         $formatted.= array_pop($stack);
       } else {
-        $set= $unset= '';
-        foreach (explode(',', $match[0]) as $style) {
-          if (isset(self::$theme[$style])) {
-            $set.= self::$theme[$style][0];
-            $unset= self::$theme[$style][1].$unset;
-          } else {
-            sscanf($style, '%[^@]@%s', $fg, $bg);
-            $set.= "\e[3".self::$colors[$fg][0].($bg ? ';4'.self::$colors[$bg][0] : '').'m';
-            $unset= "\e[".self::$colors[$fg][1].($bg ? ';'.self::$colors[$bg][1] : '').'m'.$unset;
-          }
-        }
+        list($set, $unset)= self::transition($match[0]);
         $formatted.= $set;
         $stack[]= $unset;
       }
