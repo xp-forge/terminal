@@ -54,3 +54,25 @@ Console::writeLine('<italic>- The XP Framework group</>');
 // Can be combined, too
 Console::writeLine('<dark-blue,underline>http://localhost</>');
 ```
+
+Positioning
+-----------
+The `util.cmd.term.Terminal` class allows clearing the screen, positioning the cursor and writing text there.
+
+![Screenshot](https://raw.githubusercontent.com/xp-forge/terminal/master/terminal-clock.png)
+
+```php
+use util\cmd\term\Terminal;
+
+$message= 'Hello from the middle of the screen';
+
+// Center text in third line
+$dim= Terminal::size();
+$x= ($dim[0] - strlen($message)) / 2;
+$y= 3;
+
+Terminal::clear();
+Terminal::write($x, $y, $message);
+```
+
+For the more advanced example seen above in the screenshot, have a look at [this code](https://gist.github.com/thekid/d1a38a0743733d2270968d7eac8f43c9).
