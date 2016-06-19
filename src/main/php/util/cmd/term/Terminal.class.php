@@ -103,6 +103,23 @@ class Terminal {
   }
 
   /**
+   * Applies style for a given block
+   *
+   * @param  string $styles
+   * @param  function(): void $block
+   * @return void
+   */
+  public static function styled($styles, $block) {
+    list($set, $unset)= self::transition($styles);
+    Output::$direct->write($set);
+    try {
+      $block();
+    } finally {
+      Output::$direct->write($unset);
+    }
+  }
+
+  /**
    * Clears terminal
    *
    * @return void
