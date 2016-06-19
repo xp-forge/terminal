@@ -138,7 +138,7 @@ class Terminal {
    * @return void
    */
   public static function position($x, $y) {
-    Output::$direct->write("\e[".$y.';'.$x.'H');
+    Output::$direct->write("\e[".(int)$y.';'.(int)$x.'H');
   }
 
   /**
@@ -151,7 +151,7 @@ class Terminal {
   }
 
   /**
-   * Resets current line
+   * Writes text at a given position
    *
    * @param  int $x
    * @param  int $y
@@ -160,7 +160,7 @@ class Terminal {
    */
   public static function write($x, $y, $arg) {
     foreach ((array)$arg as $n => $line) {
-      Output::$direct->write("\e[".($y + $n).';'.$x.'H'.self::format($line));
+      Output::$direct->write("\e[".(int)($y + $n).';'.(int)$x.'H'.self::format($line));
     }
   }
 }
