@@ -3,6 +3,8 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+## 0.2.0 / 2016-06-20
+
 * Changed preference to bundled `tput` as using Cygwin variant breaks
   ANSI escape sequences inside a Windows shell
   (@thekid)
