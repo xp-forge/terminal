@@ -11,6 +11,8 @@ Terminal
 
 Terminal control.
 
+![Screenshot](https://raw.githubusercontent.com/xp-forge/terminal/master/terminal-styles.png)
+
 Styles
 ------
 The terminal library adds support for color to the `Console` class. There are five predefined styles:
