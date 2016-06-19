@@ -48,4 +48,7 @@ use util\cmd\Console;
 Console::writeLine('<underline>http://localhost</>');
 Console::writeLine('<bold>Watch out!</>');
 Console::writeLine('<italic>- The XP Framework group</>');
+
+// Can be combined, too
+Console::writeLine('<dark-blue,underline>http://localhost</>');
 ```
