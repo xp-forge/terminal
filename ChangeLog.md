@@ -3,6 +3,10 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+## 0.3.0 / 2016-07-05
+
+* Fixed issue #2: Terminal confused by debug output - @thekid
+
 ## 0.2.0 / 2016-06-20
 
 * Changed preference to bundled `tput` as using Cygwin variant breaks
