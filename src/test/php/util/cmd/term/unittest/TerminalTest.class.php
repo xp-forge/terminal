@@ -48,4 +48,25 @@ class TerminalTest extends \unittest\TestCase {
   public function format_with_color_and_nested_attribute() {
     $this->assertFormatted("\e[31mTest \e[4mLink\e[24m\e[39m", '<dark-red>Test <underline>Link</></>');
   }
+
+  #[@test, @values([
+  #  '>>> Sent',
+  #  '<<< Recieved'
+  #])]
+  public function issue_2($input) {
+    $this->assertFormatted($input, $input);
+  }
+
+  #[@test]
+  public function raw_xml() {
+    $this->assertFormatted('<?xml version="1.0" encoding="utf-8"?>', '<><?xml version="1.0" encoding="utf-8"?></>');
+  }
+
+  #[@test]
+  public function raw_stacktrace() {
+    $this->assertFormatted(
+      'at <main>::array_pop() [line 76 of Terminal.class.php] Test',
+      '<>at <main>::array_pop() [line 76 of Terminal.class.php]</> Test'
+    );
+  }
 }

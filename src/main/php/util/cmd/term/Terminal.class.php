@@ -42,8 +42,10 @@ class Terminal {
         $unset= self::$theme[$style][1].$unset;
       } else {
         sscanf($style, '%[^@]@%s', $fg, $bg);
-        $set.= "\e[".strtr(self::$colors[$fg][0], '%', '3').($bg ? ';'.strtr(self::$colors[$bg][0], '%', '4') : '').'m';
-        $unset= "\e[".strtr(self::$colors[$fg][1], '%', '3').($bg ? ';'.strtr(self::$colors[$bg][1], '%', '4') : '').'m'.$unset;
+        if (isset(self::$colors[$fg])) {
+          $set.= "\e[".strtr(self::$colors[$fg][0], '%', '3').($bg ? ';'.strtr(self::$colors[$bg][0], '%', '4') : '').'m';
+          $unset= "\e[".strtr(self::$colors[$fg][1], '%', '3').($bg ? ';'.strtr(self::$colors[$bg][1], '%', '4') : '').'m'.$unset;
+        }
       }
     }
     return [$set, $unset];
@@ -56,26 +58,36 @@ class Terminal {
    * @return string
    */
   public static function format($in) {
-    preg_match_all('/<([a-z\/][a-z@,-]*)>/', $in, $matches, PREG_OFFSET_CAPTURE);
-
     $formatted= '';
     $offset= 0;
-    foreach ($matches[1] as $match) {
-      if ($match[1] > 1) {
-        $formatted.= substr($in, $offset, $match[1] - $offset - 1);
-      }
+    $length= strlen($in);
+    do {
+      $p= strcspn($in, '<', $offset);
+      $formatted.= substr($in, $offset, $p);
+      $offset+= $p + 1;
 
-      if ('/' === $match[0]{0}) {
+      if ($offset >= $length) break;
+
+      $e= strcspn($in, '>', $offset);
+      $token= substr($in, $offset, $e);
+      if ('' === $token) {
+        $e= strpos($in, '</>', $offset) - $offset;
+        $formatted.= substr($in, $offset + 1, $e - 1);
+        $e+= 2;
+      } else if ('/' === $token{0}) {
         $formatted.= array_pop($stack);
+      } else if (strlen($token) !== strspn($token, 'abcdefghijklmnopqrstuvwxyz0123456789-,@')) {
+        $formatted.= substr($in, $offset - 1, $e + 1 + 1);
       } else {
-        list($set, $unset)= self::transition($match[0]);
+        list($set, $unset)= self::transition($token);
         $formatted.= $set;
         $stack[]= $unset;
       }
 
-      $offset= $match[1] + strlen($match[0]) + 1;
-    }
-    return $formatted.substr($in, $offset);
+      $offset+= $e + 1;
+    } while ($offset < $length);
+
+    return $formatted;
   }
 
   /**
