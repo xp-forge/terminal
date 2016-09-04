@@ -3,6 +3,8 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+* Added compatibility with XP 8 - @thekid
+
 ## 0.3.0 / 2016-07-05
 
 * Fixed issue #2: Terminal confused by debug output - @thekid
