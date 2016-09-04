@@ -3,6 +3,7 @@
 use util\cmd\Console;
 use io\streams\MemoryOutputStream;
 use util\Bytes;
+use lang\Object;
 
 class ConsoleTest extends \unittest\TestCase {
 
@@ -30,6 +31,18 @@ class ConsoleTest extends \unittest\TestCase {
     }
   }
 
+  /**
+   * Returns an object with a toString() output equaling the given value
+   *
+   * @param  string $value
+   * @return lang.Object
+   */
+  private function value($value) {
+    return newinstance(Object::class, [], [
+      'toString' => function() use($value) { return $value; }
+    ]);
+  }
+
   #[@test]
   public function write() {
     $this->assertWritten("\e[31;1mTest\e[22;39m", function() {
@@ -55,6 +68,13 @@ class ConsoleTest extends \unittest\TestCase {
   public function writeLine_multiple_args() {
     $this->assertWritten("\e[31;1mTest\e[22;39m\n", function() {
       Console::writeLine('<red>', 'Test', '</>');
+    });
+  }
+
+  #[@test]
+  public function write_object() {
+    $this->assertWritten("\e[31;1mTest\e[22;39m", function() {
+      Console::write('<red>', $this->value('Test'), '</>');
     });
   }
 }
