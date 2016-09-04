@@ -34,7 +34,7 @@ class Terminal {
     'white'        => ['%7;1', '22;%9']
   ];
 
-  public static function transition($styles) {
+  private static function transition($styles) {
     $set= $unset= '';
     foreach (explode(',', $styles) as $style) {
       if (isset(self::$theme[$style])) {
@@ -49,6 +49,46 @@ class Terminal {
       }
     }
     return [$set, $unset];
+  }
+
+  /**
+   * Format output
+   *
+   * @param  string $in
+   * @param  string[] $stack
+   * @return string
+   */
+  public static function format($in, &$stack) {
+    $offset= 0;
+    $length= strlen($in);
+    $formatted= '';
+
+    do {
+      $p= strcspn($in, '<', $offset);
+      $formatted.= substr($in, $offset, $p);
+      $offset+= $p + 1;
+      if ($offset >= $length) break;
+
+      $e= strcspn($in, '>', $offset);
+      $token= substr($in, $offset, $e);
+      if ('' === $token) {
+        $e= strpos($in, '</>', $offset) - $offset;
+        $formatted.= substr($in, $offset + 1, $e - 1);
+        $e+= 2;
+      } else if ('/' === $token{0}) {
+        $formatted.= array_pop($stack);
+      } else if (strlen($token) !== strspn($token, 'abcdefghijklmnopqrstuvwxyz0123456789-,@')) {
+        $formatted.= substr($in, $offset - 1, $e + 1 + 1);
+      } else {
+        list($set, $unset)= Terminal::transition($token);
+        $formatted.= $set;
+        $stack[]= $unset;
+      }
+
+      $offset+= $e + 1;
+    } while ($offset < $length);
+
+    return $formatted;
   }
 
   /**

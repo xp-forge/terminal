@@ -1,6 +1,6 @@
 <?php namespace util\cmd\term\unittest;
 
-use util\cmd\term\Output;
+use util\cmd\term\Terminal;
 use util\Bytes;
 
 class TerminalTest extends \unittest\TestCase {
@@ -14,7 +14,7 @@ class TerminalTest extends \unittest\TestCase {
    */
   private function assertFormatted($expected, $input) {
     $stack= [];
-    $formatted= Output::format($input, $stack);
+    $formatted= Terminal::format($input, $stack);
     if ($expected !== $formatted) {
       $this->fail('equals', new Bytes($formatted), new Bytes($expected));
     }

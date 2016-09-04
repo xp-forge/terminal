@@ -44,46 +44,6 @@ class Output implements \io\streams\OutputStreamWriter {
   }
 
   /**
-   * Format output
-   *
-   * @param  string $in
-   * @param  string[] $stack
-   * @return string
-   */
-  public static function format($in, &$stack) {
-    $offset= 0;
-    $length= strlen($in);
-    $formatted= '';
-
-    do {
-      $p= strcspn($in, '<', $offset);
-      $formatted.= substr($in, $offset, $p);
-      $offset+= $p + 1;
-      if ($offset >= $length) break;
-
-      $e= strcspn($in, '>', $offset);
-      $token= substr($in, $offset, $e);
-      if ('' === $token) {
-        $e= strpos($in, '</>', $offset) - $offset;
-        $formatted.= substr($in, $offset + 1, $e - 1);
-        $e+= 2;
-      } else if ('/' === $token{0}) {
-        $formatted.= array_pop($stack);
-      } else if (strlen($token) !== strspn($token, 'abcdefghijklmnopqrstuvwxyz0123456789-,@')) {
-        $formatted.= substr($in, $offset - 1, $e + 1 + 1);
-      } else {
-        list($set, $unset)= Terminal::transition($token);
-        $formatted.= $set;
-        $stack[]= $unset;
-      }
-
-      $offset+= $e + 1;
-    } while ($offset < $length);
-
-    return $formatted;
-  }
-
-  /**
    * Print arguments
    *
    * @param  var... $args
@@ -91,10 +51,9 @@ class Output implements \io\streams\OutputStreamWriter {
    */
   public function write(... $args) {
     $stack= [];
-
     foreach ($args as $arg) {
       if (is_string($arg)) {
-        $this->out->write($this->format($arg, $stack));
+        $this->out->write(Terminal::format($arg, $stack));
       } else {
         $this->out->write(\xp::stringOf($arg));
       }
@@ -125,7 +84,7 @@ class Output implements \io\streams\OutputStreamWriter {
    */
   public function writef($format, ... $args) {
     $stack= [];
-    $formatted= $this->format($format, $stack);
+    $formatted= Terminal::format($format, $stack);
     while ($end= array_shift($stack)) {
       $formatted.= $end;
     }
