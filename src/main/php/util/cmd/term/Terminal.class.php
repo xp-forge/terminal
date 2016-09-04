@@ -181,7 +181,13 @@ class Terminal {
    */
   public static function write($x, $y, $arg) {
     foreach ((array)$arg as $n => $line) {
-      Output::$direct->write("\e[".(int)($y + $n).';'.(int)$x.'H'.self::format($line));
+      $stack= [];
+      $formatted= self::format($line, $stack);
+      while ($end= array_shift($stack)) {
+        $formatted.= $end;
+      }
+
+      Output::$direct->write("\e[".(int)($y + $n).';'.(int)$x.'H'.$formatted);
     }
   }
 }
