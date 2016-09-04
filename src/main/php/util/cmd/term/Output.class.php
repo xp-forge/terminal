@@ -43,7 +43,14 @@ class Output implements \io\streams\OutputStreamWriter {
     $this->out->flush();
   }
 
-  public function format($in, &$stack) {
+  /**
+   * Format output
+   *
+   * @param  string $in
+   * @param  string[] $stack
+   * @return string
+   */
+  public static function format($in, &$stack) {
     $offset= 0;
     $length= strlen($in);
     $formatted= '';

@@ -52,45 +52,6 @@ class Terminal {
   }
 
   /**
-   * Format a string containing `<styles>`...`</>` sequences.
-   *
-   * @param  string $in
-   * @return string
-   */
-  public static function format($in) {
-    $formatted= '';
-    $offset= 0;
-    $length= strlen($in);
-    do {
-      $p= strcspn($in, '<', $offset);
-      $formatted.= substr($in, $offset, $p);
-      $offset+= $p + 1;
-
-      if ($offset >= $length) break;
-
-      $e= strcspn($in, '>', $offset);
-      $token= substr($in, $offset, $e);
-      if ('' === $token) {
-        $e= strpos($in, '</>', $offset) - $offset;
-        $formatted.= substr($in, $offset + 1, $e - 1);
-        $e+= 2;
-      } else if ('/' === $token{0}) {
-        $formatted.= array_pop($stack);
-      } else if (strlen($token) !== strspn($token, 'abcdefghijklmnopqrstuvwxyz0123456789-,@')) {
-        $formatted.= substr($in, $offset - 1, $e + 1 + 1);
-      } else {
-        list($set, $unset)= self::transition($token);
-        $formatted.= $set;
-        $stack[]= $unset;
-      }
-
-      $offset+= $e + 1;
-    } while ($offset < $length);
-
-    return $formatted;
-  }
-
-  /**
    * Returns size
    *
    * @return  int[] columns, rows
