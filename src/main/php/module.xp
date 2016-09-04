@@ -8,7 +8,7 @@ module xp-forge/term {
   public function initialize() {
     Output::$direct= Console::$out->getStream();
 
-    Console::$out->setStream(new Output(STDOUT));
-    Console::$err->setStream(new Output(STDERR));
+    Console::$out= new Output(Console::$out->getStream());
+    Console::$err= new Output(Console::$err->getStream());
   }
 }
