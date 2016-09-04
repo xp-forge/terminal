@@ -34,7 +34,7 @@ class Terminal {
     'white'        => ['%7;1', '22;%9']
   ];
 
-  private static function transition($styles) {
+  public static function transition($styles) {
     $set= $unset= '';
     foreach (explode(',', $styles) as $style) {
       if (isset(self::$theme[$style])) {

@@ -43,6 +43,39 @@ class Output implements \io\streams\OutputStreamWriter {
     $this->out->flush();
   }
 
+  public function format($in, &$stack) {
+    $offset= 0;
+    $length= strlen($in);
+    $formatted= '';
+
+    do {
+      $p= strcspn($in, '<', $offset);
+      $formatted.= substr($in, $offset, $p);
+      $offset+= $p + 1;
+      if ($offset >= $length) break;
+
+      $e= strcspn($in, '>', $offset);
+      $token= substr($in, $offset, $e);
+      if ('' === $token) {
+        $e= strpos($in, '</>', $offset) - $offset;
+        $formatted.= substr($in, $offset + 1, $e - 1);
+        $e+= 2;
+      } else if ('/' === $token{0}) {
+        $formatted.= array_pop($stack);
+      } else if (strlen($token) !== strspn($token, 'abcdefghijklmnopqrstuvwxyz0123456789-,@')) {
+        $formatted.= substr($in, $offset - 1, $e + 1 + 1);
+      } else {
+        list($set, $unset)= Terminal::transition($token);
+        $formatted.= $set;
+        $stack[]= $unset;
+      }
+
+      $offset+= $e + 1;
+    } while ($offset < $length);
+
+    return $formatted;
+  }
+
   /**
    * Print arguments
    *
@@ -50,15 +83,19 @@ class Output implements \io\streams\OutputStreamWriter {
    * @return void
    */
   public function write(... $args) {
-    $r= '';
+    $stack= [];
+
     foreach ($args as $arg) {
       if (is_string($arg)) {
-        $r.= $arg;
+        $this->out->write($this->format($arg, $stack));
       } else {
-        $r.= \xp::stringOf($arg);
+        $this->out->write(\xp::stringOf($arg));
       }
     }
-    $this->out->write(Terminal::format($r));
+
+    while ($end= array_shift($stack)) {
+      $this->out->write($end);
+    }
   }
 
   /**
@@ -68,15 +105,8 @@ class Output implements \io\streams\OutputStreamWriter {
    * @return void
    */
   public function writeLine(... $args) {
-    $r= '';
-    foreach ($args as $arg) {
-      if (is_string($arg)) {
-        $r.= $arg;
-      } else {
-        $r.= \xp::stringOf($arg);
-      }
-    }
-    $this->out->write(Terminal::format($r."\n"));
+    $this->write(...$args);
+    $this->out->write("\n");
   }
 
   /**
@@ -87,7 +117,13 @@ class Output implements \io\streams\OutputStreamWriter {
    * @return void
    */
   public function writef($format, ... $args) {
-    $this->out->write(Terminal::format(vsprintf($format, $args)));
+    $stack= [];
+    $formatted= $this->format($format, $stack);
+    while ($end= array_shift($stack)) {
+      $formatted.= $end;
+    }
+
+    $this->out->write(vsprintf($formatted, $args));
   }
 
   /**
@@ -98,6 +134,7 @@ class Output implements \io\streams\OutputStreamWriter {
    * @return void
    */
   public function writeLinef($format, ... $args) {
-    $this->out->write(Terminal::format(vsprintf($format, $args)."\n"));
+    $this->writef($format, ...$args);
+    $this->out->write("\n");
   }
 }

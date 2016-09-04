@@ -77,4 +77,53 @@ class ConsoleTest extends \unittest\TestCase {
       Console::write('<red>', $this->value('Test'), '</>');
     });
   }
+
+  #[@test]
+  public function write_object_with_end_tag() {
+    $this->assertWritten("\e[31;1m</>\e[22;39m", function() {
+      Console::write('<red>', $this->value('</>'), '</>');
+    });
+  }
+
+  #[@test]
+  public function writeLine_object() {
+    $this->assertWritten("\e[31;1mTest\e[22;39m\n", function() {
+      Console::writeLine('<red>', $this->value('Test'), '</>');
+    });
+  }
+
+  #[@test]
+  public function writeLine_object_with_end_tag() {
+    $this->assertWritten("\e[31;1m</>\e[22;39m\n", function() {
+      Console::writeLine('<red>', $this->value('</>'), '</>');
+    });
+  }
+
+  #[@test]
+  public function writef() {
+    $this->assertWritten("\e[31;1mTest\e[22;39m", function() {
+      Console::writef('<red>%s</>', 'Test');
+    });
+  }
+
+  #[@test]
+  public function writeLinef() {
+    $this->assertWritten("\e[31;1mTest\e[22;39m\n", function() {
+      Console::writeLinef('<red>%s</>', 'Test');
+    });
+  }
+
+  #[@test]
+  public function writef_argument_with_end_tag() {
+    $this->assertWritten("\e[31;1m</>\e[22;39m", function() {
+      Console::writef('<red>%s</>', '</>');
+    });
+  }
+
+  #[@test]
+  public function writeLinef_argument_with_end_tag() {
+    $this->assertWritten("\e[31;1m</>\e[22;39m\n", function() {
+      Console::writeLinef('<red>%s</>', '</>');
+    });
+  }
 }

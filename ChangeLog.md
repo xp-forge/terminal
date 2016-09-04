@@ -3,6 +3,15 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+## 0.5.0 / 2016-09-05
+
+* Changed `Console::writef()` and `writeLinef()` to only tokenize
+  format string and not arguments
+  (@thekid)
+* Changed non-string arguments to `Console::write()` and `writeLine()`
+  to no longer be tokenized
+  (@thekid)
+
 ## 0.4.0 / 2016-09-04
 
 * **Heads up: Dropped PHP 5.5 support - now requires PHP 5.6 minimum!**
