@@ -3,8 +3,11 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+## 0.4.0 / 2016-09-04
+
 * **Heads up: Dropped PHP 5.5 support - now requires PHP 5.6 minimum!**
   (@thekid)
+* Fixed writing multiple arguments with Console. See PR #3 - @thekid
 * Added compatibility with XP 8 - @thekid
 
 ## 0.3.0 / 2016-07-05
