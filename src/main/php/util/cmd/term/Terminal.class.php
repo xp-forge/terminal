@@ -34,6 +34,12 @@ class Terminal {
     'white'        => ['%7;1', '22;%9']
   ];
 
+  /**
+   * Returns transitions for a given style sequence
+   *
+   * @param  string $styles
+   * @return string[]
+   */
   private static function transition($styles) {
     $set= $unset= '';
     foreach (explode(',', $styles) as $style) {
@@ -52,7 +58,7 @@ class Terminal {
   }
 
   /**
-   * Format output
+   * Format a string containing `<styles>`...`</>` sequences
    *
    * @param  string $in
    * @param  string[] $stack
