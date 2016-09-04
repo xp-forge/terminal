@@ -3,6 +3,8 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+* **Heads up: Dropped PHP 5.5 support - now requires PHP 5.6 minimum!**
+  (@thekid)
 * Added compatibility with XP 8 - @thekid
 
 ## 0.3.0 / 2016-07-05
