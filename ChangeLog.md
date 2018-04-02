@@ -3,6 +3,10 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+## 0.6.0 / 2018-04-02
+
+* Fixed compatiblity with PHP 7.2 - @thekid
+
 ## 0.5.0 / 2016-09-05
 
 * Changed `Console::writef()` and `writeLinef()` to only tokenize

@@ -3,7 +3,7 @@
 use util\cmd\Console;
 use io\streams\MemoryOutputStream;
 use util\Bytes;
-use lang\Object;
+use lang\Value;
 
 class ConsoleTest extends \unittest\TestCase {
 
@@ -38,8 +38,10 @@ class ConsoleTest extends \unittest\TestCase {
    * @return lang.Object
    */
   private function value($value) {
-    return newinstance(Object::class, [], [
-      'toString' => function() use($value) { return $value; }
+    return newinstance(Value::class, [], [
+      'toString'  => function() use($value) { return $value; },
+      'hashCode'  => function() { return spl_object_hash($this); },
+      'compareTo' => function($value) { return $value === $this ? 0 : 1; }
     ]);
   }
 
