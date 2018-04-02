@@ -5,6 +5,7 @@ Terminal change log
 
 ## 0.6.0 / 2018-04-02
 
+* Added compatibility with XP 9 - @thekid
 * Fixed compatiblity with PHP 7.2 - @thekid
 
 ## 0.5.0 / 2016-09-05

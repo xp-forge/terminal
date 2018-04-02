@@ -35,7 +35,7 @@ class ConsoleTest extends \unittest\TestCase {
    * Returns an object with a toString() output equaling the given value
    *
    * @param  string $value
-   * @return lang.Object
+   * @return lang.Value
    */
   private function value($value) {
     return newinstance(Value::class, [], [
