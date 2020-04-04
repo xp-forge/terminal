@@ -1,3 +1,3 @@
 <?php namespace xp;
 
-\lang\ClassLoader::registerPath(__DIR__, false, 'xp-forge/term');
+\lang\ClassLoader::registerPath(__DIR__);

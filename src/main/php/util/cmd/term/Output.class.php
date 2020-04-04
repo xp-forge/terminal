@@ -1,8 +1,10 @@
 <?php namespace util\cmd\term;
 
 use io\streams\OutputStream;
+use io\streams\OutputStreamWriter;
+use util\Objects;
 
-class Output implements \io\streams\OutputStreamWriter {
+class Output implements OutputStreamWriter {
   public static $direct;
   private $out= null;
 
@@ -55,7 +57,7 @@ class Output implements \io\streams\OutputStreamWriter {
       if (is_string($arg)) {
         $this->out->write(Terminal::format($arg, $stack));
       } else {
-        $this->out->write(\xp::stringOf($arg));
+        $this->out->write(Objects::stringOf($arg));
       }
     }
 
