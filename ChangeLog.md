@@ -3,6 +3,11 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+## 1.0.0 / 2020-04-04
+
+* Added support for XP 10 - @thekid
+* Dropped support for PHP 5, now requires PHP 7.0 mininum! - @thekid
+
 ## 0.6.0 / 2018-04-02
 
 * Added compatibility with XP 9 - @thekid
