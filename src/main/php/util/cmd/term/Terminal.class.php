@@ -81,7 +81,7 @@ class Terminal {
         $e= strpos($in, '</>', $offset) - $offset;
         $formatted.= substr($in, $offset + 1, $e - 1);
         $e+= 2;
-      } else if ('/' === $token{0}) {
+      } else if ('/' === $token[0]) {
         $formatted.= array_pop($stack);
       } else if (strlen($token) !== strspn($token, 'abcdefghijklmnopqrstuvwxyz0123456789-,@')) {
         $formatted.= substr($in, $offset - 1, $e + 1 + 1);

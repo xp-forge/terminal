@@ -3,6 +3,12 @@ Terminal change log
 
 ## ?.?.? / ????-??-??
 
+## 1.0.1 / 2020-10-04
+
+* Fixed "Array and string offset access syntax with curly braces is no
+  longer supported"
+  (@thekid)
+
 ## 1.0.0 / 2020-04-04
 
 * Added support for XP 10 - @thekid
